@@ -1,5 +1,6 @@
 const pool = require('../config/db');
 
+// Agregar Video a Favoritos
 const addFavorite = async (req, res) => {
     try {
         const { youtube_video_id, title, thumbnail_url } = req.body;
@@ -24,6 +25,7 @@ const addFavorite = async (req, res) => {
     }
 };
 
+// Listar Favoritos del Usuario
 const getFavorites = async (req, res) => {
     try {
         const user_id = req.user.id;
@@ -40,6 +42,7 @@ const getFavorites = async (req, res) => {
     }
 };
 
+// Eliminar Video de Favoritos
 const removeFavorite = async (req, res) => {
     try {
         const { videoId } = req.params;
