@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const favoritesRoutes = require('./routes/favoritesRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // Endpoints
 app.use('/api/auth', authRoutes);
+app.use('/api/favorites', favoritesRoutes);
 
 // Health Check
 app.get('/api/health', async (req, res) => {
