@@ -5,6 +5,7 @@ const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const favoritesRoutes = require('./routes/favoritesRoutes');
 const youtubeRoutes = require('./routes/youtubeRoutes');
+const passwordRoutes = require('./routes/passwordRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/youtube', youtubeRoutes);
+app.use('/api/password', passwordRoutes);
 
 // Health Check
 app.get('/api/health', async (req, res) => {
