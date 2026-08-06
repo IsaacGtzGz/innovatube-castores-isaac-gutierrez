@@ -2,14 +2,19 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const pool = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middlewares Globales
 app.use(cors());
 app.use(express.json());
 
-// Endpoint de prueba (Health Check)
+// Endpoints
+app.use('/api/auth', authRoutes);
+
+// Health Check
 app.get('/api/health', async (req, res) => {
     try {
         const result = await pool.query('SELECT NOW()');
