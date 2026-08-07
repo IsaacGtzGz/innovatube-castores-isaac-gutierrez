@@ -1,59 +1,17 @@
-# Frontend
+# InnovaTube - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
+Plataforma web para la gestión y exploración de contenido de video, estructurada bajo principios de Arquitectura Limpia.
 
-## Development server
+## Credenciales de Evaluación
 
-To start a local development server, run:
+Para revisar el módulo de autenticación y acceder al panel de control protegido, se ha habilitado el siguiente usuario de prueba en el entorno de producción:
 
-```bash
-ng serve
-```
+- Correo Electrónico: admin@innovatube.com
+- Contraseña: Password123
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Arquitectura y Tecnologías
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Framework: Angular 18 (Standalone Components).
+- Estilos: Tailwind CSS.
+- Seguridad: Implementación de Functional Guards (CanActivateFn) para la protección de rutas privadas e intercepción HTTP para la inyección automática de tokens JWT.
+- Gestión del Estado: Formularios reactivos (Reactive Forms) para la captura, validación estricta y aislamiento de la lógica de datos.

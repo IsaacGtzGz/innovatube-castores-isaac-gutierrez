@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-
+import { Router } from '@angular/router';
 // Servicios
 import { AuthService } from '../auth';
 
@@ -14,7 +14,11 @@ import { AuthService } from '../auth';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     // Configuración de Formulario
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -24,15 +28,19 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      // Autenticación HTTP
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (response) => {
-          console.log('Inicio de sesión exitoso:', response);
+      // Construcción del Payload
+      const payload = {
+        identifier: this.loginForm.value.email,
+        password: this.loginForm.value.password
+      };
 
-          // Almacenamiento de Sesión
+      // Autenticación HTTP
+      this.authService.login(payload).subscribe({
+        next: (response) => {
           if (response.token) {
+            // Almacenamiento de Sesión y Redirección
             localStorage.setItem('token', response.token);
-            console.log('Token guardado en LocalStorage');
+            this.router.navigate(['/dashboard']);
           }
         },
         error: (err) => {
