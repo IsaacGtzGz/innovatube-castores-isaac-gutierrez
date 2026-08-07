@@ -34,6 +34,16 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
+// Ruta de bienvenida
+app.get('/', (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        message: 'InnovaTube API corriendo correctamente',
+        developer: 'Isaac Gutiérrez',
+        version: '1.0.0'
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
