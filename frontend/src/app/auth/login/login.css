@@ -1,0 +1,41 @@
+/* Estilos complementarios para el formulario de login */
+.brand-logo svg {
+  color: white;
+}
+
+.input-icon {
+  position: absolute;
+  pointer-events: none;
+  left: 0.75rem;
+  top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-icon svg {
+  color: rgba(55, 65, 81, 0.65);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 767px) {
+  .brand-logo {
+    display: none;
+  }
+}
+
+/* Mejora de foco para accesibilidad */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.08);
+}
+
+/* Estilos para el panel blanco interno */
+.rounded-2xl {
+  backface-visibility: hidden;
+}
+
+/* Resaltar el card al pasar */
+.max-w-5xl:hover {
+  box-shadow: 0 24px 48px rgba(2, 6, 23, 0.30);
+}
