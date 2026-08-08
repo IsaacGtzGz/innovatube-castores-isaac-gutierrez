@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 // Servicios
 import { VideoService } from '../../services/video';
-
+import { FavoritesService } from '../../services/favorites';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -13,7 +13,9 @@ import { VideoService } from '../../services/video';
   styleUrl: './dashboard.css',
 })
 export class DashboardComponent implements OnInit {
+  // Estado
   videos: any[] = [];
+  favoriteIds: Set<string> = new Set();
   searchInput = new FormControl('');
 
   // Variables del Modal
@@ -24,11 +26,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private videoService: VideoService,
+    private favoritesService: FavoritesService,
     private sanitizer: DomSanitizer
   ) { }
 
   // Ciclo de Vida
   ngOnInit(): void {
+    this.loadFavorites();
     this.cargarVideos('desarrollo web');
   }
 
@@ -45,10 +49,36 @@ export class DashboardComponent implements OnInit {
     this.cargarVideos('desarrollo web');
   }
 
+  toggleFavorite(video: any, event: Event): void {
+    event.stopPropagation(); // Evita que se abra el reproductor al dar like
+    const videoId = video.youtube_video_id;
+
+    if (this.favoriteIds.has(videoId)) {
+      this.favoritesService.removeFavorite(videoId).subscribe({
+        next: () => {
+          this.favoriteIds.delete(videoId);
+        },
+        error: (err: any) => console.error('Error al eliminar de favoritos:', err)
+      });
+    } else {
+      const favoriteData = {
+        youtube_video_id: videoId,
+        title: video.title,
+        thumbnail_url: video.thumbnail_url
+      };
+
+      this.favoritesService.addFavorite(favoriteData).subscribe({
+        next: () => {
+          this.favoriteIds.add(videoId);
+        },
+        error: (err: any) => console.error('Error al agregar a favoritos:', err)
+      });
+    }
+  }
+
   // Lógica del Reproductor
   abrirVideo(video: any): void {
     this.videoSeleccionado = video;
-    // Armamos la URL de incrustación de YouTube y la sanitizamos
     const url = `https://www.youtube.com/embed/${video.youtube_video_id}?autoplay=1`;
     this.urlSegura = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
@@ -63,12 +93,22 @@ export class DashboardComponent implements OnInit {
     this.videos = [];
 
     this.videoService.searchVideos(query).subscribe({
-      next: (data) => {
+      next: (data: any[]) => {
         this.videos = data;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al cargar la galería:', err);
       }
+    });
+  }
+
+  loadFavorites(): void {
+    this.favoritesService.getFavorites().subscribe({
+      next: (favs: any[]) => {
+        const ids = favs.map((f: any) => f.youtube_video_id);
+        this.favoriteIds = new Set(ids);
+      },
+      error: (err: any) => console.error('Error al cargar favoritos:', err)
     });
   }
 
