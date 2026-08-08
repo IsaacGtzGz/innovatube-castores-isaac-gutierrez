@@ -39,3 +39,20 @@ input:focus {
 .max-w-5xl:hover {
   box-shadow: 0 24px 48px rgba(2, 6, 23, 0.30);
 }
+
+/* Animación suave para alertas */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade {
+  animation: fadeIn 0.25s ease-out forwards;
+}

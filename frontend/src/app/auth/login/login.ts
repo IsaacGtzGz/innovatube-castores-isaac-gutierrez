@@ -14,6 +14,8 @@ import { AuthService } from '../auth';
 export class LoginComponent {
   loginForm: FormGroup;
   showPassword = false;
+  errorMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -33,23 +35,27 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      // Construcción del Payload
+      this.errorMessage = '';
+      this.isLoading = true;
+
       const payload = {
         identifier: this.loginForm.value.email,
         password: this.loginForm.value.password
       };
 
-      // Autenticación HTTP
       this.authService.login(payload).subscribe({
         next: (response) => {
           if (response.token) {
-            // Almacenamiento de Sesión y Redirección
             localStorage.setItem('token', response.token);
             this.router.navigate(['/dashboard']);
           }
         },
         error: (err) => {
-          console.error('Error al iniciar sesión:', err);
+          this.isLoading = false;
+          this.errorMessage = 'Credenciales inválidas. Por favor intenta de nuevo.';
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 2000);
         }
       });
     } else {

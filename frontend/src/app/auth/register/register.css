@@ -3,20 +3,6 @@
   color: white;
 }
 
-.input-icon {
-  position: absolute;
-  pointer-events: none;
-  left: 0.75rem;
-  top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.input-icon svg {
-  color: rgba(55, 65, 81, 0.65);
-}
-
 /* Ajustes responsivos */
 @media (max-width: 767px) {
   .brand-logo {

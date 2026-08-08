@@ -12,15 +12,6 @@ const register = async (req, res) => {
             return res.status(400).json({ error: 'Falta el token de seguridad ReCaptcha' });
         }
 
-        // DESACTIVADO TEMPORALMENTE PARA DEBUGGING
-        // Validación con Google
-        // const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptcha}`;
-        // const captchaResponse = await axios.post(verifyUrl);
-        //
-        // if (!captchaResponse.data.success) {
-        //     return res.status(400).json({ error: 'No superaste la validación del ReCaptcha' });
-        // }
-
         if (password !== password_confirmation) {
             return res.status(400).json({ error: 'Las contraseñas no coinciden' });
         }

@@ -55,6 +55,10 @@
               </svg>
             </div>
           </div>
+          <!-- Bloque de validación -->
+          @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <p class="text-red-500 text-xs mt-1 animate-fade">Correo Invalido!</p>
+          }
         </div>
 
         <div>
@@ -93,18 +97,21 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between text-sm">
-          <label class="flex items-center gap-2 text-gray-600">
-            <input type="checkbox" class="rounded border-gray-300 bg-white w-4 h-4" />
-            <span>Recuérdame</span>
-          </label>
-          <a href="#" class="text-indigo-600 hover:underline">¿Olvidaste tu contraseña?</a>
+        <!-- Alerta de credenciales incorrectas -->
+        @if (errorMessage) {
+        <div class="text-center text-red-600 text-sm font-medium mb-4 animate-fade">
+          {{ errorMessage }}
         </div>
+        }
 
         <div>
           <button type="submit"
             class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-500 text-white font-semibold rounded-xl shadow-md transition hover:opacity-95">Iniciar
             Sesión</button>
+        </div>
+
+        <div class="flex justify-center text-sm">
+          <a href="#" class="text-indigo-600 hover:underline">¿Olvidaste tu contraseña?</a>
         </div>
 
         <p class="mt-2 text-center text-xs text-gray-500">¿No tienes cuenta? <a routerLink="/register"

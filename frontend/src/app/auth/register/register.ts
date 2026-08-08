@@ -15,6 +15,7 @@ import { AuthService } from '../auth';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   isLoading: boolean = false;
+  errorMessage: string = '';
   siteKey: string = '6LdeN3stAAAAANPCnFdwoOOS94B-HqYpqM7d21jI';
   showPassword = false;
   showConfirmPassword = false;
@@ -58,6 +59,7 @@ export class RegisterComponent implements OnInit {
       this.showConfirmPassword = !this.showConfirmPassword;
     }
   }
+
   // Eventos de Interfaz
   onSubmit(): void {
     if (this.registerForm.invalid) {
@@ -66,7 +68,7 @@ export class RegisterComponent implements OnInit {
     }
 
     this.isLoading = true;
-
+    this.errorMessage = '';
     const formValues = this.registerForm.value;
 
     const nameParts = formValues.name.trim().split(' ');
@@ -91,8 +93,12 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        console.error('Error al registrar usuario:', err);
         this.isLoading = false;
+        this.errorMessage = err.error?.error || 'Error al procesar el registro.';
+
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 3000);
       }
     });
   }
