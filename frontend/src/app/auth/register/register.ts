@@ -80,7 +80,8 @@ export class RegisterComponent implements OnInit {
       username: formValues.username,
       email: formValues.email,
       password: formValues.password,
-      password_confirmation: formValues.confirmPassword
+      password_confirmation: formValues.confirmPassword,
+      recaptcha: formValues.recaptcha
     };
 
     // Peticiones HTTP

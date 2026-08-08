@@ -1,11 +1,25 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/db');
+const axios = require('axios');
 
 // Registro de Usuarios
 const register = async (req, res) => {
     try {
-        const { first_name, last_name, username, email, password, password_confirmation } = req.body;
+        const { first_name, last_name, username, email, password, password_confirmation, recaptcha } = req.body;
+
+        if (!recaptcha) {
+            return res.status(400).json({ error: 'Falta el token de seguridad ReCaptcha' });
+        }
+
+        // DESACTIVADO TEMPORALMENTE PARA DEBUGGING
+        // Validación con Google
+        // const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptcha}`;
+        // const captchaResponse = await axios.post(verifyUrl);
+        //
+        // if (!captchaResponse.data.success) {
+        //     return res.status(400).json({ error: 'No superaste la validación del ReCaptcha' });
+        // }
 
         if (password !== password_confirmation) {
             return res.status(400).json({ error: 'Las contraseñas no coinciden' });

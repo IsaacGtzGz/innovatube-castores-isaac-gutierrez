@@ -151,7 +151,7 @@
         </div>
 
         <!-- ReCaptcha -->
-        <div class="flex flex-col items-center py-2">
+        <div class="flex flex-col items-center py-3">
           <re-captcha formControlName="recaptcha" [siteKey]="siteKey"></re-captcha>
 
           @if (registerForm.get('recaptcha')?.touched && registerForm.get('recaptcha')?.invalid) {
