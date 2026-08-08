@@ -15,7 +15,7 @@ import { AuthService } from '../auth';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   isLoading: boolean = false;
-  siteKey: string = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+  siteKey: string = '6LdeN3stAAAAANPCnFdwoOOS94B-HqYpqM7d21jI';
   showPassword = false;
   showConfirmPassword = false;
 
