@@ -12,8 +12,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  // Petición al Backend
-  login(credentials: { identifier: string; password: string }): Observable<any> {
+  // Peticiones HTTP
+  login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/login`, credentials);
+  }
+
+  register(userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/register`, userData);
   }
 }
