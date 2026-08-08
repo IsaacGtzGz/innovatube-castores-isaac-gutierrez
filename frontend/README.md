@@ -2,6 +2,8 @@
 
 Plataforma web para la gestión y exploración de contenido de video, desarrollada bajo los principios de Arquitectura Limpia y diseño responsivo.
 
+**Despliegue en vivo:** [https://innovatube-frontend-seven.vercel.app/login](https://innovatube-frontend-seven.vercel.app/login)
+
 ## Credenciales de Evaluación
 
 Para facilitar la revisión del módulo de autenticación y acceder al panel de control protegido, se ha habilitado el siguiente usuario de prueba en el entorno de producción:
