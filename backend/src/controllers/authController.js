@@ -1,9 +1,10 @@
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/db');
 const axios = require('axios');
 
-// Registro de Usuarios
+// Base de Datos: Registro
 const register = async (req, res) => {
     try {
         const { first_name, last_name, username, email, password, password_confirmation, recaptcha } = req.body;
@@ -44,14 +45,15 @@ const register = async (req, res) => {
     }
 };
 
-// Inicio de Sesión
+// Base de Datos: Inicio de Sesión
 const login = async (req, res) => {
     try {
-        const { identifier, password } = req.body;
+        const { identifier, email, username, password } = req.body;
+        const loginIdentifier = identifier || email || username;
 
         const userResult = await pool.query(
             'SELECT * FROM users WHERE email = $1 OR username = $1',
-            [identifier]
+            [loginIdentifier]
         );
 
         if (userResult.rows.length === 0) {
@@ -86,7 +88,69 @@ const login = async (req, res) => {
     }
 };
 
+// Base de Datos: Olvidé Contraseña
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const userResult = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({ error: 'No existe una cuenta con este correo' });
+        }
+
+        const resetToken = crypto.randomBytes(16).toString('hex');
+        const tokenExpires = new Date(Date.now() + 3600000);
+
+        await pool.query(
+            'UPDATE users SET reset_token = $1, reset_token_expires = $2 WHERE email = $3',
+            [resetToken, tokenExpires, email]
+        );
+
+        res.status(200).json({
+            message: 'Token generado exitosamente',
+            token: resetToken
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al procesar la solicitud' });
+    }
+};
+
+// Base de Datos: Restablecer Contraseña
+const resetPassword = async (req, res) => {
+    try {
+        const { token, newPassword, password } = req.body;
+        const passwordToHash = newPassword || password;
+
+        const userResult = await pool.query(
+            'SELECT * FROM users WHERE TRIM(reset_token) = $1',
+            [token]
+        );
+
+        if (userResult.rows.length === 0) {
+            return res.status(400).json({ error: 'El token es inválido o ha expirado' });
+        }
+
+        const user = userResult.rows[0];
+        const saltRounds = 10;
+        const passwordHash = await bcrypt.hash(passwordToHash, saltRounds);
+
+        await pool.query(
+            'UPDATE users SET password_hash = $1, reset_token = NULL, reset_token_expires = NULL WHERE id = $2',
+            [passwordHash, user.id]
+        );
+
+        res.status(200).json({ message: 'Contraseña actualizada correctamente' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar la contraseña' });
+    }
+};
+
 module.exports = {
     register,
-    login
+    login,
+    forgotPassword,
+    resetPassword
 };

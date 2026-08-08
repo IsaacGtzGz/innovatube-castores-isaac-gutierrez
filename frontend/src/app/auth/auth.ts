@@ -20,4 +20,14 @@ export class AuthService {
   register(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/register`, userData);
   }
+
+  forgotPassword(email: string) {
+    // Agregamos /auth/ antes del endpoint
+    return this.http.post(`${this.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    // Agregamos /auth/ antes del endpoint
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, { token, newPassword });
+  }
 }

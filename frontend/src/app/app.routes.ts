@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login';
 import { RegisterComponent } from './auth/register/register';
 import { DashboardComponent } from './pages/dashboard/dashboard';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password';
 // Middlewares
 import { authGuard } from './auth/guards/auth.guard';
 import { noAuthGuard } from './auth/guards/no-auth.guard';
@@ -21,6 +23,16 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [noAuthGuard]
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [noAuthGuard]
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
     canActivate: [noAuthGuard]
   },
   {
