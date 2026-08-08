@@ -5,6 +5,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 // Servicios
 import { VideoService } from '../../services/video';
 import { FavoritesService } from '../../services/favorites';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -17,6 +18,7 @@ export class DashboardComponent implements OnInit {
   videos: any[] = [];
   favoriteIds: Set<string> = new Set();
   searchInput = new FormControl('');
+  username: string = '';
 
   // Variables del Modal
   videoSeleccionado: any = null;
@@ -32,8 +34,23 @@ export class DashboardComponent implements OnInit {
 
   // Ciclo de Vida
   ngOnInit(): void {
+    this.extraerUsuario();
     this.loadFavorites();
     this.cargarVideos('desarrollo web');
+  }
+
+  // Decodificación JWT
+  extraerUsuario(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const payload = token.split('.')[1];
+        const decoded = JSON.parse(atob(payload));
+        this.username = decoded.username || 'Usuario';
+      } catch (error) {
+        this.username = 'Usuario';
+      }
+    }
   }
 
   // Eventos de Interfaz

@@ -78,13 +78,13 @@
       </div>
 
       <div class="flex items-center gap-4 ml-4">
+        <!-- Nombre de Usuario -->
+        <span class="font-medium text-slate-700 hidden sm:block">{{ username }}</span>
+
         <!-- Avatar de Usuario -->
         <div
-          class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/20 text-white font-bold border-2 border-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-          </svg>
+          class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/20 text-white font-bold border-2 border-white uppercase">
+          {{ username ? username.charAt(0) : 'U' }}
         </div>
       </div>
     </header>
