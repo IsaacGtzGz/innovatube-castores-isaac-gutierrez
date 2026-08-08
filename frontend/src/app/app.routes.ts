@@ -5,6 +5,7 @@ import { RegisterComponent } from './auth/register/register';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password';
+import { FavoritesComponent } from './pages/favorites/favorites';
 // Middlewares
 import { authGuard } from './auth/guards/auth.guard';
 import { noAuthGuard } from './auth/guards/no-auth.guard';
@@ -38,6 +39,11 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'favoritos',
+    component: FavoritesComponent,
     canActivate: [authGuard]
   },
   {
